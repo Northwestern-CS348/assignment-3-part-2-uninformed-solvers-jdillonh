@@ -1,13 +1,16 @@
 #### Notes to self: TODO
+  *  [ ] Every call to fact is formated wrong. 
+  Pass in something that the Statement constructor will like.
+
   *  [X] getGameState could update onTopOf Facts,  
 	(dont need them since it kind of finds that out for us)
   * makeMove:
-    * *move the disk*: insert a new fact about the disks Pos
-    * **retract** the old disk pos fact
+    * [x] *move the disk*: insert a new fact about the disks Pos
+    * [x] **retract** the old disk pos fact
 	    
     * *update kb*: use kb_infer to infer new facts about kb
     * [X] Use the new pos rule to do inference 
-	[This happens automatically!]
+	[This happens automatically]
 	
   * other studentCode functions
 
