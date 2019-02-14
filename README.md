@@ -1,6 +1,8 @@
 #### Notes to self: TODO
   *  [ ] Every call to fact is formated wrong. 
   Pass in something that the Statement constructor will like.
+  *  [ ] student_code_uniformed_solvers
+  *  [ ] Verify that infer is called automagically
 
   *  [X] getGameState could update onTopOf Facts,  
 	(dont need them since it kind of finds that out for us)
@@ -12,7 +14,6 @@
     * [X] Use the new pos rule to do inference 
 	[This happens automatically]
 	
-  * other studentCode functions
 
 # Assignment 3 Part 2: Game Masters and Uninformed Solvers
 
