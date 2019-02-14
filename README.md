@@ -6,7 +6,10 @@
     * **retract** the old disk pos fact
 	    
     * *update kb*: use kb_infer to infer new facts about kb
-    * Use the new pos rule to do inference
+    * [X] Use the new pos rule to do inference 
+	[This happens automatically!]
+	
+  * other studentCode functions
 
 # Assignment 3 Part 2: Game Masters and Uninformed Solvers
 

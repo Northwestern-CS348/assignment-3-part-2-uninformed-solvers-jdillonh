@@ -76,12 +76,18 @@ class TowerOfHanoiGame(GameMaster): #--------------T.O. HANOI-------------#
         assert (movable_statement.predicate == "movable" or
                 movable_statement.predicate == "moveable"), "makeMove: Movable_statement had the wrong predicate"
         
-        # from is taken, h.ab. 'to and fro'
+        #assert the new posisiton
         disk = movable_statement.terms[0]
-        fro = movable_statement.terms[1]
+        fro = movable_statement.terms[1] # from is taken, h.ab. 'to and fro'
         to = movable_statement.terms[2]
 
-        #make the move, 
+        #move from old position: rectract old position
+        self.kb.kb_retract(Fact('fact: (on '+ fro + ' ' + disk))
+
+        #make the move: assert new pos fact
+        newPos = Fact('fact: (on '+ to + ' ' + disk) 
+        self.kb.kb_assert(newPos)
+
 
     def reverseMove(self, movable_statement):
         """
