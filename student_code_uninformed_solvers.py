@@ -1,4 +1,3 @@
-
 from solver import *
 
 class SolverDFS(UninformedSolver):
@@ -14,7 +13,6 @@ class SolverDFS(UninformedSolver):
         If all game states reachable from a parent state has been explored,
         the next explored state should conform to the specifications of
         the Depth-First Search algorithm.
-
         Returns:
             True if the desired solution state is reached, False otherwise
         """
@@ -35,7 +33,6 @@ class SolverBFS(UninformedSolver):
         If all game states reachable from a parent state has been explored,
         the next explored state should conform to the specifications of
         the Breadth-First Search algorithm.
-
         Returns:
             True if the desired solution state is reached, False otherwise
         """

@@ -4,7 +4,6 @@ class Fact(object):
     """Represents a fact in our knowledge base. Has a statement containing the
         content of the fact, e.g. (isa Sorceress Wizard) and fields tracking
         which facts/rules in the KB it supports and is supported by.
-
     Attributes:
         name (str): 'fact', the name of this class
         statement (Statement): statement of this fact, basically what the fact actually says
@@ -17,7 +16,6 @@ class Fact(object):
     """
     def __init__(self, statement, supported_by=[]):
         """Constructor for Fact setting up useful flags and generating appropriate statement
-
         Args:
             statement (str|Statement): The statement of this fact, basically what the
                 fact actually says
@@ -165,7 +163,6 @@ class Statement(object):
     def __init__(self, statement_list=[]):
         """Constructor for Statements with optional list of Statements that are
             converted to appropriate terms (and one predicate)
-
         Args:
             statement_list (mostly listof str|Term, first element is str): The element at
                 index 0 is the predicate of the statement (a str) while the rest of

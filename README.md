@@ -1,3 +1,13 @@
+#### Notes to self: TODO
+  *  [X] getGameState could update onTopOf Facts,  
+	(dont need them since it kind of finds that out for us)
+  * makeMove:
+    * *move the disk*: insert a new fact about the disks Pos
+    * **retract** the old disk pos fact
+	    
+    * *update kb*: use kb_infer to infer new facts about kb
+    * Use the new pos rule to do inference
+
 # Assignment 3 Part 2: Game Masters and Uninformed Solvers
 
 In this week's assignment, you will both bring the puzzle games to life and create automated players to solve them based on uninformed search algorithms.

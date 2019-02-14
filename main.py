@@ -1,9 +1,9 @@
+#!/usr/local/bin/python3.7
 import unittest, inspect
 from multiprocessing.pool import ThreadPool
 from multiprocessing.context import TimeoutError
 from student_code_game_masters import *
 from student_code_uninformed_solvers import *
-
 
 class KBTest(unittest.TestCase):
 
