@@ -37,23 +37,22 @@ class TowerOfHanoiGame(GameMaster): #--------------T.O. HANOI-------------#
 
         # 'DONE'
         
-        #tuples were a bad idea, not mutable. 
         result = [ [], [], [] ]
         for fact in self.kb.facts:
             #if not isinstance(fact, Fact):
             #    continue
             if fact.statement.predicate == 'on':
-                diskN = int(fact.statement.terms[0][4]) 
-                pegN = int(fact.statement.terms[1][3])
-                if diskN not in result[pegN]: #avoid redundant facts?
-                    result[pegN].append(diskN)
+                diskN = int(str(fact.statement.terms[0])[4]) 
+                pegN = int(str(fact.statement.terms[1])[3])
+                if diskN not in result[pegN-1]: #avoid redundant facts?
+                    result[pegN-1].append(diskN)
 
         for pegL in result:
             pegL.sort()
 
         #make sure there are the right elements
-        total = sum(sum(e) for e in result) 
-        assert(total == 15)
+        #total = sum(sum(e) for e in result) 
+        #assert(total == 15)
 
         #turn into a tuple 
         return tuplefy(result)
@@ -73,24 +72,24 @@ class TowerOfHanoiGame(GameMaster): #--------------T.O. HANOI-------------#
             None
         """
 
-        # 'DONE'
-
-        # a misspelling I make a lot
-
-        #assert (movable_statement.predicate == "movable" or
-        #        movable_statement.predicate == "moveable"), "makeMove: Movable_statement had the wrong predicate"
+        # 'DONE' - And Tested!
         
         #assert the new posisiton
-        disk = movable_statement.terms[0]
-        fro  = movable_statement.terms[1] # from is taken, h.ab. 'to and fro'
-        to   = movable_statement.terms[2]
+        disk = str(movable_statement.terms[0])
+        fro  = str(movable_statement.terms[1]) # from is taken, 
+        to   = str(movable_statement.terms[2]) # how about 'to and fro'
 
         #move from old position: rectract old position
-        self.kb.kb_retract(Fact('fact: (on '+ fro + ' ' + disk))
+        self.kb.kb_retract(parse_input('fact: (on '+ disk + ' ' + fro + ')'))
+
+        #remove all movables, no longer nescesarily correct
+        #for fact in self.kb.facts:
+        #    if fact.statement.predicate == 'movable':
+        #        self.kb.kb_retract(fact)
 
         #make the move: assert new pos fact
-        newPos = Fact('fact: (on '+ to + ' ' + disk) 
-        self.kb.kb_assert(newPos)
+        newPos = parse_input('fact: (on '+ disk + ' ' + to + ')') 
+        self.kb.kb_add(newPos)
 
 
     def reverseMove(self, movable_statement):
@@ -115,7 +114,6 @@ class Puzzle8Game(GameMaster): #----------------PUZZLE 8---------------#
         Create the Fact object that could be used to query
         the KB of the presently available moves. This function
         is called once per game.
-
         Returns:
              A Fact object that could be used to query the currently available moves
         """
@@ -132,7 +130,7 @@ class Puzzle8Game(GameMaster): #----------------PUZZLE 8---------------#
         Returns:
             A Tuple of Tuples that represent the game state
         """
-        ### 'DONE'
+        ### Done and tested working I think
 
         def tuplefy(liOfli):
             """ [HELPER]
@@ -143,36 +141,27 @@ class Puzzle8Game(GameMaster): #----------------PUZZLE 8---------------#
 
         result = [[None, None, None], [None, None, None], [None, None, None]]
 
-        xPos = {}
-        yPos = {}
         for fact in self.kb.facts:
-            if fact.predicate == 'xPos':
-                disk = fact.statement.terms[0] #I'm assuming here that these *statements*
-                pos = fact.statement.terms[1]  #are strings
-                xPos[disk] = pos               #or are atleast hashable
-            if fact.predicate == 'yPos':
-                disk = fact.statement.terms[0]
-                pos = fact.statement.terms[1]
-                yPos[disk] = pos
+            if fact.statement.predicate == 'pos':
 
-        for disk in xPos:
-            #I will 'intify' all the strings here
-            x = int(xPos[disk][3])
-            y = int(yPos[disk][3])
-            tileN = int(disk[4])
-            result[tileN][y] = x
+                try:
+                    disk = None
+                    disk = int(str(fact.statement.terms[0])[4])
+                except: #empty case
+                    disk = -1
+                xPos = int(str(fact.statement.terms[1])[3])
+                yPos = int(str(fact.statement.terms[2])[3])
+
+                result[yPos-1][xPos-1] = disk
+
             
-        #make sure that every position is known
-        emptyFound = False
-        for li in result:
-            for el in li:
-                if el is None:
-                    if not emptyFound:
-                        el = -1
-                        emptyFound = True
-                    else:
-                        raise Exception("getGameState: position of all tiles " +
-                                        "is not known")
+        for li in result: #BANDAID - who has time
+            li = [e if e is not None else -1 for e in li]
+
+        for i in range(0, 3):  #BANDAID pt.2 - noone does
+            for j in range(0, 3):
+                if result[i][j] is None:
+                    result[i][j] = -1
         return tuplefy(result)
 
 
@@ -191,23 +180,21 @@ class Puzzle8Game(GameMaster): #----------------PUZZLE 8---------------#
         """
         # 'DONE'
 
-        #assert (movable_statement.predicate == "movable" or
-        #        movable_statement.predicate == "moveable"), "makeMove: Movable_statement had the wrong predicate"
-        
         #assert the new posisiton
-        tile = movable_statement.terms[0]
-        froX = movable_statement.terms[1]  #going to use fro again for consistency
-        froY = movable_statement.terms[2] 
-        toX  = movable_statement.terms[3]
-        toY  = movable_statement.terms[4]
+        tile = str(movable_statement.terms[0]) 
+        froX = str(movable_statement.terms[1])  #going to use fro again for consistency
+        froY = str(movable_statement.terms[2]) 
+        toX  = str(movable_statement.terms[3])
+        toY  = str(movable_statement.terms[4])
+
 
         #move from old position: rectract old position
-        self.kb.kb_retract(Fact('fact: (xPos ' + tile + ' ' + froX))
-        self.kb.kb_retract(Fact('fact: (yPos ' + tile + ' ' + froY))
+        self.kb.kb_retract(
+            parse_input('fact: (pos ' + tile + ' ' + froX + ' ' + froY + ')'))
 
         #make the move: assert new pos fact
-        self.kb.kb_assert(Fact('fact: (xPos ' + tile + ' ' + toX))
-        self.kb.kb_assert(Fact('fact: (yPos ' + tile + ' ' + toY))
+        self.kb.kb_assert(
+            parse_input('fact: (pos ' + tile + ' ' + toX + ' ' + toY + ')'))
 
 
 

@@ -48,5 +48,5 @@ fact: (topMostDisk disk2 peg2)
 fact: (topMostDisk disk1 peg3)
 
 #rules
-rule: ((bigger ?aDisk ?bDisk) (bigger ?bDisk ?cDisk) -> (bigger aDisk cDisk))
-rule: ((topMostDisk ?thisDisk ?thisPeg) (topOf ?anotherPeg ?anotherDisk) (bigger ?anotherDisk ?thisDisk)) -> (movable thisDisk ?thisPeg ?anotherPeg) 
+rule: (bigger ?aDisk ?bDisk) (bigger ?bDisk ?cDisk) -> (bigger ?aDisk ?cDisk)
+rule: ((topMostDisk ?thisDisk ?thisPeg) (topOf ?anotherPeg ?anotherDisk) (bigger ?anotherDisk ?thisDisk)) -> (movable ?thisDisk ?thisPeg ?anotherPeg)(topMostDisk ?thisDisk ?anotherPeg)

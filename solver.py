@@ -54,11 +54,9 @@ class GameState(object):
 
     """
     A generic data structure capable of holding a representation of a game state.
-
     Multiple GameState objects could be organized into a tree (or graph),
     where the nodes are GameState objects, and the edges are references stored in
     the list, self.children.
-
     Attributes:
         children (list of GameState): GameState nodes expandable from the the current GameState node
         nextChildToVisit (int): index of the next GameState node in 'children' list of expand

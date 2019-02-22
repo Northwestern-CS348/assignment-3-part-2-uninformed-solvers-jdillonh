@@ -68,7 +68,7 @@ class KBTest(unittest.TestCase):
         except TimeoutError:
             raise Exception("Timed out: %s" % inspect.stack()[1][3])
 
-    def test01_GM_Hanoi(self):
+    def test01_GM_Hanoi(self): #this only passes if I have movables in my flatfiles
         th = TowerOfHanoiGame()
         th.read('hanoi_3_all_disks_on_peg_one.txt')
         required = [
@@ -79,6 +79,7 @@ class KBTest(unittest.TestCase):
         self.assertFalse(th.isWon())
 
         movables = th.getMovables()
+        assert(movables != False);
         self.assertEqual(th.getGameState(), ((1,2,3),(),()))
         th.makeMove(movables[0])
         self.assertEqual(th.getGameState(), ((2,3),(1,),()))
