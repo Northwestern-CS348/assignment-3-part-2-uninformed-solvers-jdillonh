@@ -1,0 +1,6 @@
+* personal notes 
+** BFS
+   1. Go up to find the "required next state"
+      - Go to root, then go down to the next node of the same depth ("cousin")
+   2. Go to the sibling of the current node
+   3. Go down and add required nodes

@@ -52,7 +52,7 @@ class TowerOfHanoiGame(GameMaster): #--------------T.O. HANOI-------------#
 
         #make sure there are the right elements
         #total = sum(sum(e) for e in result) 
-        #assert(total == 15)
+        #assert(total == 15) 
 
         #turn into a tuple 
         return tuplefy(result)
@@ -72,24 +72,43 @@ class TowerOfHanoiGame(GameMaster): #--------------T.O. HANOI-------------#
             None
         """
 
-        # 'DONE' - And Tested!
-        
+        # written, being tested
+
         #assert the new posisiton
         disk = str(movable_statement.terms[0])
         fro  = str(movable_statement.terms[1]) # from is taken, 
         to   = str(movable_statement.terms[2]) # how about 'to and fro'
 
-        #move from old position: rectract old position
-        self.kb.kb_retract(parse_input('fact: (on '+ disk + ' ' + fro + ')'))
+        # find what's below "disk", 
+        # if there is something there make that topMost Disk, remove Disk onTopOf beneath
+        # else make fro an empty peg
+        beneath = self.kb.kb_ask(parse_input('fact: (onTopOf {} ?anotherDisk)'.format(disk)))
+        if beneath:
+            beneath = str(beneath[0].bindings_dict["?anotherDisk"])
+            self.kb.kb_add(parse_input("fact: (topMostDisk {} {})".format(beneath, fro)))
+            self.kb.kb_retract(parse_input('fact: (onTopOf {} {})'.format(disk, beneath)))
+        else: #there is nothing beneath, mark peg as empty
+            self.kb.kb_add(parse_input('fact: (emptyPeg {})'.format(fro)))
 
-        #remove all movables, no longer nescesarily correct
-        #for fact in self.kb.facts:
-        #    if fact.statement.predicate == 'movable':
-        #        self.kb.kb_retract(fact)
+        self.kb.kb_retract(parse_input('fact: (topMostDisk {} {})'.format(disk, fro)))
+        toTop = self.kb.kb_ask(parse_input('fact: (topMostDisk ?someDisk {})'.format(to)))
+        if toTop: #the top of the TO stack
+            toTop = toTop[0].bindings_dict['?someDisk']
+            self.kb.kb_add(parse_input( 'fact: (onTopOf {} {})'.format(disk, toTop) ))
+            self.kb.kb_retract(parse_input( 'fact: (topMostDisk {} {})'.format(toTop, to) ))
+            
+        else: #if nothing on top of 'to' then to is empty, RETRACT that TO IS EMPTY
+            self.kb.kb_retract(parse_input('fact: (emptyPeg {})'.format(to)))
+
+
+        #move from old position: rectract old position 
+        self.kb.kb_retract(parse_input('fact: (on {} {})'.format( disk, fro) ))
 
         #make the move: assert new pos fact
-        newPos = parse_input('fact: (on '+ disk + ' ' + to + ')') 
-        self.kb.kb_add(newPos)
+        self.kb.kb_add(parse_input( 'fact: (on {} {})'.format(disk, to) ))
+        self.kb.kb_add(parse_input( 'fact: (topMostDisk {} {} )'.format(disk, to) ))
+
+        #self.kb.kb_retract(parse_input('fact: (emptyPeg ' + to + ')')) #this is already done
 
 
     def reverseMove(self, movable_statement):
@@ -143,7 +162,6 @@ class Puzzle8Game(GameMaster): #----------------PUZZLE 8---------------#
 
         for fact in self.kb.facts:
             if fact.statement.predicate == 'pos':
-
                 try:
                     disk = None
                     disk = int(str(fact.statement.terms[0])[4])

@@ -6,7 +6,7 @@ class SolverDFS(UninformedSolver):
 
     def findNextStepDFS(self):
         """ [helper] finds next node to work on, in DFS order """
-            #if this node has children we havent visited
+        #if this node has children we havent visited
         if self.currentState.nextChildToVisit < len(self.currentState.children):
             #visit one of the children
             curr = self.currentState.children[self.currentState.nextChildToVisit]
@@ -27,23 +27,27 @@ class SolverDFS(UninformedSolver):
         explore in the order implied by the GameMaster.getMovables()
         function.
         If all game states reachable from a parent state has been explored,
-        the next explored state shouldteta conform to the specifications of
+        the next explored state should conform to the specifications of
         the Depth-First Search algorithm.
         Returns:
             True if the desired solution state is reached, False otherwise
         """
         ### Student code 
         self.visited[ self.currentState ] = True
-
+        print( str(self.gm.getGameState()) )
         if self.currentState == GameState(self.victoryCondition, 0, None):
             return True
 
         if self.gm.getMovables() is False: 
+            print('No movables!')
             return False
+
         for move in self.gm.getMovables():
+            print('Found movable:', move)
             self.gm.makeMove(move)
             newState = GameState(self.gm.getGameState, self.currentState.depth + 1, move)
             newState.parent = self.currentState
+            #if newState not in self.visited: #and indent next line
             self.currentState.children.append(newState)
             self.gm.reverseMove(move)
 
