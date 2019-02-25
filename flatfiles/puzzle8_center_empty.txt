@@ -30,40 +30,6 @@ rule: ((pos ?tileA ?x pos2) (pos ?tileB ?x ?anyY)) -> (adjacent ?tileA ?tileB)
 rule: ((pos ?tileB ?x ?anyY) (pos ?tileA ?x pos2)) -> (adjacent ?tileB ?tileA)
 rule: ((pos ?tileA pos2 ?y) (pos ?tileB ?anyX ?y)) -> (adjacent ?tileA ?tileB)
 rule: ((pos ?tileB ?anyX ?y) (pos ?tileA pos2 ?y)) -> (adjacent ?tileB ?tileA)
-#movability
+
 rule: ((adjacent ?tileA empty) (pos ?tileA ?x ?y) (pos? empty ?emptyX ?emptyY)) -> (movable ?tileA ?x ?y ?emptyX ?emptyY)
 
-### rule: ((eq (xPos ?discA) (xPos ?discB)) | (eq(yPos ?discA) (yPos ?discB)))  -> (adjacent ?tileA ?tileB) 
-#these are ~bad~ forget eq
-#rule: (eq (xPos ?diskA) (xPos ?diskB)) (eq (yPos ?diskA) pos2) -> (adjacent diskA diskB)
-#rule: (eq (xPos ?diskA) (xPos ?diskB)) (eq (yPos ?diskB) pos2) -> (adjacent diskA diskB)
-#
-#rule: (eq (yPos ?diskA)(yPos ?diskB)) (eq (yPos ?diskA) pos2) -> (adjacent diskA diskB)
-#rule: (eq (yPos ?diskA)(yPos ?diskB)) (eq (yPos ?diskB) pos2) -> (adjacent diskA diskB)
-
-
-
-#OLD coordinates
-#X
-#fact: (xPos tile1 pos1)
-#fact: (xPos tile8 pos1)
-#fact: (xPos tile7 pos1)
-#
-#fact: (xPos tile6 pos2)
-#fact: (xPos tile2 pos2)
-#
-#fact: (xPos tile3 pos3)
-#fact: (xPos tile4 pos3)
-#fact: (xPos tile5 pos3)
-#
-##Y
-#fact: (yPos tile1 pos1)
-#fact: (yPos tile2 pos1)
-#fact: (yPos tile3 pos1)
-#
-#fact: (yPos tile8 pos2)
-#fact: (yPos tile4 pos2)
-#
-#fact: (yPos tile7 pos3)
-#fact: (yPos tile6 pos3)
-#fact: (yPos tile5 pos3)
