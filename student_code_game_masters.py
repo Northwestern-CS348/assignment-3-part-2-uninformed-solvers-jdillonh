@@ -204,15 +204,18 @@ class Puzzle8Game(GameMaster): #----------------PUZZLE 8---------------#
         froY = str(movable_statement.terms[2]) 
         toX  = str(movable_statement.terms[3])
         toY  = str(movable_statement.terms[4])
-
-
-        #move from old position: rectract old position
+        tile2 = self.kb.kb_ask(
+            parse_input('fact: (pos ?tile2 {} {})'.format(toX, toY)))[0].bindings_dict['?tile2']
         self.kb.kb_retract(
             parse_input('fact: (pos ' + tile + ' ' + froX + ' ' + froY + ')'))
-
         #make the move: assert new pos fact
         self.kb.kb_assert(
             parse_input('fact: (pos ' + tile + ' ' + toX + ' ' + toY + ')'))
+        self.kb.kb_retract(
+            parse_input('fact: (pos {} {} {})'.format(tile2, toX, toY)))
+        self.kb.kb_assert(
+            parse_input('fact: (pos {} {} {})'.format(tile2, froX, froY))) 
+            
 
 
 

@@ -7,6 +7,10 @@ class SolverDFS(UninformedSolver):
     def findNextStepDFS(self):
         """ [helper] finds next node to work on, in DFS order """
         #if this node has children we havent visited
+        #while (self.currentState.children[self.currentState.nextChildToVisit]
+        #       in self.visited):
+        #    print('skipped a state!')
+        #    self.currentState.nextChildToVisit += 1
         if self.currentState.nextChildToVisit < len(self.currentState.children):
             #visit one of the children
             curr = self.currentState.children[self.currentState.nextChildToVisit]
@@ -45,9 +49,9 @@ class SolverDFS(UninformedSolver):
         for move in self.gm.getMovables():
             print('Found movable:', move)
             self.gm.makeMove(move)
-            newState = GameState(self.gm.getGameState, self.currentState.depth + 1, move)
+            newState = GameState(self.gm.getGameState(), self.currentState.depth + 1, move)
             newState.parent = self.currentState
-            #if newState not in self.visited: #and indent next line
+            #if newState not in self.visited: #TA didnt mention this but I think it's right
             self.currentState.children.append(newState)
             self.gm.reverseMove(move)
 

@@ -16,12 +16,12 @@ fact: (pred obj1 obj2)
 rule: ((pred obj1 obj2) (pred obj2 obj3)) -> (pred obj1 obj3)
 
 """
-#fact: (inst peg peg1)
-#fact: (inst peg peg2)
-#fact: (inst peg peg3)
-#fact: (inst disk disk1)
-#fact: (inst disk disk2)
-#fact: (inst disk disk3)
+fact: (inst peg peg1)
+fact: (inst peg peg2)
+fact: (inst peg peg3)
+fact: (inst disk disk1)
+fact: (inst disk disk2)
+fact: (inst disk disk3)
 
 fact: (on disk1 peg1)
 fact: (on disk2 peg1)
